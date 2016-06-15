@@ -21,15 +21,8 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.security.Provider;
 
-public class MapsFragment extends SupportMapFragment implements OnMapReadyCallback, GoogleMap.OnMapClickListener,  LocationListener {
+public class MapsFragment extends SupportMapFragment implements OnMapReadyCallback, GoogleMap.OnMapClickListener{
 
-    protected LocationManager locationManager;
-    protected LocationListener locationListener;
-    protected Context context;
-    String lat;
-    String provider;
-    protected String latitude,longitude;
-    protected boolean gps_enabled,network_enabled;
 
 
 
@@ -53,9 +46,7 @@ public class MapsFragment extends SupportMapFragment implements OnMapReadyCallba
         mMap.getUiSettings().setZoomControlsEnabled(true);
         mMap.setOnMapClickListener(this);
 
-        //Location l=mMap.getMyLocation();
-        //l.toString();
-        //Toast.makeText(getContext(),"Coordenadas: "+l.toString(),Toast.LENGTH_LONG).show();
+
 
         if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             return;
@@ -77,16 +68,6 @@ public class MapsFragment extends SupportMapFragment implements OnMapReadyCallba
 
 
 
-        LocationManager locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-
-        // Creating an empty criteria object
-
-        Criteria criteria = new Criteria();
-
-        // Getting the name of the provider that meets the criteria
-
-        String provider = locationManager.getBestProvider(criteria, false);
-
         if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
@@ -97,15 +78,6 @@ public class MapsFragment extends SupportMapFragment implements OnMapReadyCallba
             // for ActivityCompat#requestPermissions for more details.
             return;
         }
-        Location location = locationManager.getLastKnownLocation(provider);
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, (LocationListener) this);
-
-        double latitude = location.getLatitude();
-
-        double longitude = location.getLongitude();
-
-        Toast.makeText(getContext(),"Minha Localização é lat: "+latitude+" long: "+longitude,Toast.LENGTH_LONG).show();
-
 
 
 
@@ -129,23 +101,5 @@ public class MapsFragment extends SupportMapFragment implements OnMapReadyCallba
 
     }
 
-    @Override
-    public void onLocationChanged(Location location) {
 
-    }
-
-    @Override
-    public void onStatusChanged(String provider, int status, Bundle extras) {
-
-    }
-
-    @Override
-    public void onProviderEnabled(String provider) {
-
-    }
-
-    @Override
-    public void onProviderDisabled(String provider) {
-
-    }
 }
