@@ -21,7 +21,17 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.security.Provider;
 
-public class MapsFragment extends SupportMapFragment implements OnMapReadyCallback, GoogleMap.OnMapClickListener {
+public class MapsFragment extends SupportMapFragment implements OnMapReadyCallback, GoogleMap.OnMapClickListener,  LocationListener {
+
+    protected LocationManager locationManager;
+    protected LocationListener locationListener;
+    protected Context context;
+    String lat;
+    String provider;
+    protected String latitude,longitude;
+    protected boolean gps_enabled,network_enabled;
+
+
 
     private GoogleMap mMap;
 
@@ -116,6 +126,26 @@ public class MapsFragment extends SupportMapFragment implements OnMapReadyCallba
         marker.position(caboverde);
         marker.title("Selecionado ");
         mMap.addMarker(marker);
+
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
 
     }
 }
