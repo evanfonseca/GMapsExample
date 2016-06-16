@@ -1,7 +1,11 @@
 package com.example.dev02.gmapsexample;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -11,7 +15,7 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class MapsFragment extends SupportMapFragment implements OnMapReadyCallback {
+public class MapsFragment extends SupportMapFragment implements OnMapReadyCallback, GoogleMap.OnMapClickListener {
 
     private GoogleMap mMap;
 
@@ -25,28 +29,41 @@ public class MapsFragment extends SupportMapFragment implements OnMapReadyCallba
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        /*
 
         // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        LatLng caboverde = new LatLng(14.922059, -23.512351);
+        MarkerOptions marker = new MarkerOptions();
+        marker.title("Marker in Cape Verde");
+        marker.position(caboverde);
+        mMap.addMarker(marker);
+        mMap.getUiSettings().setZoomControlsEnabled(true);
+        mMap.setOnMapClickListener(this);
 
-        */
 
-        //mMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
+        mMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);
 
-        CameraPosition googlePlex = CameraPosition.builder()
-                .target(new LatLng(37.4219999,-122.0862462))
-                .zoom(16)
+        CameraPosition position = CameraPosition.builder()
+                .target(caboverde)
+                .zoom(13)
                 .bearing(0)
                 .tilt(45)
                 .build();
 
-        mMap.moveCamera(CameraUpdateFactory.newCameraPosition(googlePlex));
+        mMap.moveCamera(CameraUpdateFactory.newCameraPosition(position));
+
+        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+            return;
+        }
+        mMap.setMyLocationEnabled(true);
 
 
+    }
 
+    @Override
+    public void onMapClick(LatLng latLng) {
+
+        Toast.makeText(getContext(),"Coords: "+latLng.toString(),Toast.LENGTH_LONG).show();
 
     }
 }
