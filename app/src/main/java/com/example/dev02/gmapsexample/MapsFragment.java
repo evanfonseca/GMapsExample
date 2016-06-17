@@ -13,6 +13,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 public class MapsFragment extends SupportMapFragment implements OnMapReadyCallback, GoogleMap.OnMapClickListener {
@@ -56,6 +57,24 @@ public class MapsFragment extends SupportMapFragment implements OnMapReadyCallba
             return;
         }
         mMap.setMyLocationEnabled(true);
+        mMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+            @Override
+            public void onInfoWindowClick(Marker marker) {
+
+            }
+        });
+
+        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+
+                String infoTitle = marker.getTitle();
+                LatLng position = marker.getPosition();
+                Toast.makeText(getContext(), " Titulo: " + infoTitle + " Latitude: " + position.latitude + " Logintude: " + position.longitude, Toast.LENGTH_LONG).show();
+
+                return false;
+            }
+        });
 
 
     }
@@ -63,7 +82,13 @@ public class MapsFragment extends SupportMapFragment implements OnMapReadyCallba
     @Override
     public void onMapClick(LatLng latLng) {
 
-        Toast.makeText(getContext(),"Coords: "+latLng.toString(),Toast.LENGTH_LONG).show();
+        mMap.clear();
+        MarkerOptions marker = new MarkerOptions();
+        marker.title("Selecionado");
+        marker.position(latLng);
+        mMap.addMarker(marker);
+
+
 
     }
 }
