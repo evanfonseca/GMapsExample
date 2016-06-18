@@ -24,6 +24,7 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.model.LatLng;
 
 public class Activity_Principal extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, GoogleApiClient.ConnectionCallbacks,
@@ -48,6 +49,7 @@ public class Activity_Principal extends AppCompatActivity
         lati= (TextView) findViewById(R.id.lat);
         longi= (TextView) findViewById(R.id.lon);
 
+        buildGoogleApiClient();
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -59,12 +61,19 @@ public class Activity_Principal extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         fragmentManager = getSupportFragmentManager();
+
+        //LatLng myPosition=new LatLng(mLastLocation.getLatitude(),mLastLocation.getLongitude());
+        /*Bundle mBundle = new Bundle();*/
+        //Toast.makeText(this,"lat:"+lat,Toast.LENGTH_LONG).show();
+        MapsFragment mapsFragment = new MapsFragment();
+
+
         android.support.v4.app.FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.add(R.id.container, new MapsFragment(), "MapFragment");
+        transaction.add(R.id.container, mapsFragment, "MapsFragment");
         transaction.commitAllowingStateLoss();
 
 
-        buildGoogleApiClient();
+
 
 
     }
@@ -185,8 +194,7 @@ public class Activity_Principal extends AppCompatActivity
     }
 
     void updateUI() {
-
         //Toast.makeText(this,"Latitude: "+lat+" Logitude: "+lon,Toast.LENGTH_LONG).show();
-       lati.setText(lat); longi.setText(lon);
+       //lati.setText(lat); longi.setText(lon);
     }
 }
